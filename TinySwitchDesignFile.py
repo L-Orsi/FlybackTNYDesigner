@@ -82,6 +82,11 @@ def func(x): return 40*np.pi*Ae*(Np**2/(1000*Lp)-1/(k1*x**k2))
 
 Lg_guess = 0.1
 Lg = fsolve(func, Lg_guess)[0]
+Al = (k1*Lg**k2)
+
+if 0.1 < Lg < 2 or 60 < Al < 560:
+    print("Gap formula may be innacurate")
+
 
 res = {
     "Primary Inductance [uH]": Lp,
