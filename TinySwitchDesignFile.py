@@ -1,7 +1,6 @@
 import numpy as np
-import json
-import pprint
 from scipy.optimize import fsolve
+import pprint
 
 # Input Voltage
 vac = 220  # input altern voltage [V]
@@ -92,11 +91,16 @@ if not (0.1 < Lg < 2 and 60 < Al < 560):
 
 iprms = ip2*(d_max*(krp**2/3-krp+1))**0.5
 isrms = ip2*Np/Ns*((1-d_max)*(krp**2/3-krp+1))**0.5
-io = po/vo
+io = po/vo  # Not Sure
 iripple = (isrms**2-io**2)**0.5
 vz = vo - vled  # Use TL431 for better accuracy
 
 res = {
+    "Max Magnetic Field B [mT]": bp/10,
+    "Line Frequency [Hz]": 50,
+    # "Output Ripple Current [A]": iripple,
+    "Output Voltage [V]": vo,
+    "Input VAC Voltage [Vrms]": vac,
     "Primary Inductance [uH]": Lp,
     "Primary Turns [N]": Np,
     "Secondary Turns [N]": Ns,
@@ -107,4 +111,5 @@ res = {
     "RMS Secondary Current [A]": isrms,
     "Control Zener Voltage [V]": vz
 }
-print(pprint.pprint(res))
+
+pprint.pprint(res, indent=2)
