@@ -25,10 +25,13 @@ ip2 = 0.588  # From TNY268 datasheet Max Value - [A]
 fs = 132e3 * 0.94  # Min Switching Frequency [Hz]
 
 # Transformer Properties
-bp = 2000  # [Gauss]
-Ae = 0.6  # [cm2]
-k1 = 90
-k2 = -0.708
+bp = 2000  # [Gauss | mT*10]
+Ae = 0.6  # [cm2 | mm2/100]
+k1 = 90  # [Adimensional]
+k2 = -0.708  # [Adimensional]
+
+# Optocoupler
+vled = 1  # [V]
 
 
 # Script
@@ -87,13 +90,21 @@ Al = (k1*Lg**k2)
 if not (0.1 < Lg < 2 and 60 < Al < 560):
     print("Gap formula may be innacurate")
 
+iprms = ip2*(d_max*(krp**2/3-krp+1))**0.5
+isrms = ip2*Np/Ns*((1-d_max)*(krp**2/3-krp+1))**0.5
+io = po/vo
+iripple = (isrms**2-io**2)**0.5
+vz = vo - vled  # Use TL431 for better accuracy
 
 res = {
     "Primary Inductance [uH]": Lp,
     "Primary Turns [N]": Np,
     "Secondary Turns [N]": Ns,
     "Gap Length [mm]": Lg,
-    "Al [nH]": (k1*Lg**k2),
-    "Switching Frequency [kHz]": fs/1000
+    "Switching Frequency [kHz]": fs/1000,
+    "RMS Primary Current [A]": iprms,
+    "Rectifier Diodes Max Current [A]": iprms*1.5,
+    "RMS Secondary Current [A]": isrms,
+    "Control Zener Voltage [V]": vz
 }
 print(pprint.pprint(res))
