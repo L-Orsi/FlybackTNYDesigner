@@ -84,7 +84,7 @@ Lg_guess = 0.1
 Lg = fsolve(func, Lg_guess)[0]
 Al = (k1*Lg**k2)
 
-if 0.1 < Lg < 2 or 60 < Al < 560:
+if not (0.1 < Lg < 2 and 60 < Al < 560):
     print("Gap formula may be innacurate")
 
 
