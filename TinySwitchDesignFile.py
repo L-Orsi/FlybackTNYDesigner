@@ -37,7 +37,7 @@ vled = 1  # [V]
 
 
 vac_min = vac*(1-vac_tol/100)
-vac_max = vac_min = vac*(1+vac_tol/100)
+vac_max = vac*(1+vac_tol/100)
 diode_loss = vD/vo*100
 snubber_loss = 0.15 if snubber == "RCD" else 0.2
 nu = (100 - (diode_loss + snubber_loss))/100
