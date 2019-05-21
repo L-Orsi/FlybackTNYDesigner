@@ -13,7 +13,7 @@ vr = 40  # diode max reverse voltage [V]
 
 # Output
 vo = 5  # output voltage [V]
-po = 16  # output power [W]
+po = 15  # output power [W]
 
 # Snubber Topology
 snubber = ["RCD", "RC"][0]  # Snubber topology
@@ -82,7 +82,8 @@ Ns = np.round(Np*(vo+vD)/vor)
 def func(x): return 40*np.pi*Ae*(Np**2/(1000*Lp)-1/(k1*x**k2))
 
 
-Lg_guess = 0.1
+Lg_guess = Np**2*1700e-9
+print(Lg_guess)
 Lg = fsolve(func, Lg_guess)[0]
 Al = (k1*Lg**k2)
 
@@ -108,8 +109,11 @@ res = {
     "Switching Frequency [kHz]": fs/1000,
     "RMS Primary Current [A]": iprms,
     "Rectifier Diodes Max Current [A]": iprms*1.5,
+    "Max Duty Cycle [%]": d_max*100,
     "RMS Secondary Current [A]": isrms,
-    "Control Zener Voltage [V]": vz
+    "Control Zener Voltage [V]": vz,
+    "Input Capacitor [uF]": ci,
+    "Min Input Voltage [Vdc]": vd_min
 }
 
 pprint.pprint(res, indent=2)
